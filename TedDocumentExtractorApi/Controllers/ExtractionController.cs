@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -59,6 +60,9 @@ namespace TedDocumentExtractorApi.Controllers
 			{
 				return BadRequest("Request is missing 'Accept' header");
 			}
+
+			noticeString = Regex.Replace(noticeString, "\\n", " ", RegexOptions.None);
+			noticeString =  Regex.Replace(noticeString, "[ ]{2,}", " ", RegexOptions.None);
 
 			return ParseAndCreateActionResult(value, noticeString);
 		}
